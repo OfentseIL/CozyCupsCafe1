@@ -20,4 +20,20 @@
     <string name="to_playlist">Please Click the button below to listen to our coffee shop music playlist before anything else. We hope you\'ll like it.</string>
     <string name="instruction">Welcome to Cozy Cups Cafe, click next to explore our coffee shop music playlist.</string>
     <string name="next">Next</string>
+    <string name="plalistbg">playlistbg</string>
+    <string name="the_cozy_playlist">The Cozy Playlist!!</string>
+    <string name="artist1">artist1</string>
+    <string name="morning_beans_by_onion_all_stars">Morning Beans By ONION_ALL_STARS</string>
+    <string name="play1">Play</string>
+    <string name="artist2">artist2</string>
+    <string name="cup_in_the_afternoon_by_mackey">Cup In the Afternoon By Mackey</string>
+    <string name="play2">Play</string>
+    <string name="oh_coffee_by_h_beats">OH! Coffee By H-Beats</string>
+    <string name="artist3">artist3</string>
+    <string name="play3">Play</string>
+    <string name="click_menu_to_explore_our_coffee_variety">Click \'Menu\' to explore our coffee variety</string>
+    <string name="menu">Menu</string>
+    <string name="play_song1">Play Morning Beans by Onion All Stars</string>
+    <string name="play_song2">Play Cup in the Afternoon by Mackey</string>
+    <string name="play_song3">Play Oh Coffee by H-Beats</string>
 </resources>
