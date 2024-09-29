@@ -32,10 +32,10 @@ public class WelcomeActivity extends AppCompatActivity {
         textView2 = findViewById(R.id.textView2);
 
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, MusicActivity.class);
             startActivity(intent);
             finish(); // Close this activity
-        }, 3000);
+        }, 2000);
 
     }
 }

@@ -1,15 +1,12 @@
 package com.example.cozycupscafe;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.content.Intent;
+import android.view.View;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class PlaylistActivity extends AppCompatActivity {
 
@@ -17,37 +14,103 @@ public class PlaylistActivity extends AppCompatActivity {
     private Button playButton2;
     private Button playButton3;
     private MediaPlayer mediaPlayer;
-    private final boolean isPlaying = false; // Track if a song is playing
-    private final int currentSong = -1;
+    private int currentSong = -1; // Track currently playing song
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_playlist);
 
         playButton1 = findViewById(R.id.playButton1);
         playButton2 = findViewById(R.id.playButton2);
         playButton3 = findViewById(R.id.playButton3);
         Button menuButton = findViewById(R.id.menuButton);
 
-        playButton1.setOnClickListener(v -> playSong(R.raw.morning, playButton1));
-        playButton2.setOnClickListener(v -> playSong(R.raw.afternoon, playButton2));
-        playButton3.setOnClickListener(v -> playSong(R.raw.relaxing, playButton3));
+        playButton1.setOnClickListener(v -> toggleSong(R.raw.morning, playButton1));
+        playButton2.setOnClickListener(v -> toggleSong(R.raw.afternoon, playButton2));
+        playButton3.setOnClickListener(v -> toggleSong(R.raw.relaxing, playButton3));
 
         menuButton.setOnClickListener(v -> {
             Intent intent = new Intent(PlaylistActivity.this, GridActivity.class);
-        });
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_playlist);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+            startActivity(intent);
         });
     }
 
-    private void playSong(int songResId, Button playButton){
-        {
+    private void toggleSong(int songResId, Button playButton) {
+        if (currentSong == songResId && mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause(); // Pause the song
+                playButton.setText(R.string.play); // Change button text to "Play"
+                showAllButtons(); // Show all buttons when paused
+            } else {
+                mediaPlayer.start(); // Resume playing
+                playButton.setText(R.string.pause); // Change button text to "Pause"
+                hideOtherButtons(playButton); // Hide other buttons when playing
+            }
+        } else {
+            // Stop the current song if it's different
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
 
+            mediaPlayer = MediaPlayer.create(this, songResId);
+            mediaPlayer.start();
+            currentSong = songResId; // Update currently playing song
+            playButton.setText(R.string.pause); // Change button text to "Pause"
+
+            hideOtherButtons(playButton); // Hide other buttons when a new song starts
+            resetButtonText(playButton);
+        }
+
+        mediaPlayer.setOnCompletionListener(mp -> {
+            // Reset current song on completion
+            currentSong = -1;
+            showAllButtons(); // Show all buttons when a song finishes
+            resetButtonText(playButton);
+            mediaPlayer.release();
+            mediaPlayer = null;
+        });
+    }
+
+    private void hideOtherButtons(Button currentButton) {
+        if (currentButton != playButton1) {
+            playButton1.setVisibility(View.GONE);
+        }
+        if (currentButton != playButton2) {
+            playButton2.setVisibility(View.GONE);
+        }
+        if (currentButton != playButton3) {
+            playButton3.setVisibility(View.GONE);
+        }
+    }
+
+    private void showAllButtons() {
+        playButton1.setVisibility(View.VISIBLE);
+        playButton2.setVisibility(View.VISIBLE);
+        playButton3.setVisibility(View.VISIBLE);
+    }
+
+    private void resetButtonText(Button currentButton) {
+        if (currentButton != playButton1) {
+            playButton1.setText(R.string.play);
+        }
+        if (currentButton != playButton2) {
+            playButton2.setText(R.string.play);
+        }
+        if (currentButton != playButton3) {
+            playButton3.setText(R.string.play);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }
+
+
