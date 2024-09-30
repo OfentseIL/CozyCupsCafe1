@@ -38,4 +38,7 @@
     <!-- New string resources for play and pause -->
     <string name="play">Play</string>
     <string name="pause">Pause</string>
+    <string name="cozy_offerings">Cozy Offerings.</string>
+    <string name="grid">grid</string>
+    <string name="gridItem">gridItem</string>
 </resources>
